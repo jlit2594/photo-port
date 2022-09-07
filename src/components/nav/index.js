@@ -1,28 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-function Nav() {
-    const categories = [
-        {
-            title: "commercial",
-            description: "Photos of grocery stores, food trucks, and other commercial properties"
-        },
-        {
-            title: 'portraits',
-            description: 'Portraits of people in my life'
-        },
-        {
-            title: 'food',
-            description: 'Delicious'
-        },
-        {
-            title: 'landscape',
-            description: 'Fields, farmhouses, waterfalls, and the beauty of nature'
-        }
-    ];
+function Nav(props) {
+    const {
+        categories = [],
+        setCurrentCategory,
+        currentCategory,
+    } = props;
 
-    function categorySelected() {
-        console.log(`clicked`)
-    }
+    useEffect(() => {
+        document.title = currentCategory.title;
+    }, [currentCategory]);
 
     return (
         <header>
@@ -40,10 +27,14 @@ function Nav() {
                         <span>Contact</span>
                     </li>
                     {categories.map((category) => (
-                        <li className="mx-1"
-                        key={category.title}
-                        >
-                            <span onClick={() => categorySelected(category.title)}>
+                        <li className={`mx-1 ${
+                            currentCategory.title === category.title && 'navActive'
+                        }`} key={category.title}>
+                            <span
+                                onClick={() => {
+                                    setCurrentCategory(category)
+                                }}
+                            >
                                 {category.title}
                             </span>
                         </li>
